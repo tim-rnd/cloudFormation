@@ -1,0 +1,92 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS CloudFormation workshop - Intrinsic functions (uksb-1q9p31idr).",
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "Amazon EC2 Configuration"
+                    },
+                    "Parameters": [
+                        "InstanceType"
+                    ]
+                }
+            ],
+            "ParameterLabels": {
+                "InstanceType": {
+                    "default": "Type of EC2 Instance"
+                }
+            }
+        },
+        "AWS::CloudFormation::Designer": {
+            "162708cf-7043-42f6-87f2-35ecf37e7dc9": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            }
+        }
+    },
+    "Parameters": {
+        "InstanceType": {
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small"
+            ],
+            "Description": "Enter t2.micro or t2.small. Default is t2.micro."
+        },
+        "AmiID": {
+            "Type": "AWS::EC2::Image::Id",
+            "Description": "ami-0f3b366cff2e46862"
+        }
+    },
+    "Resources": {
+        "WebServerInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Ref": "AmiID"
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    {
+                                        "Ref": "InstanceType"
+                                    },
+                                    "webserver"
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "Key": "InstanceType",
+                        "Value": {
+                            "Fn::Sub": "${InstanceType}"
+                        }
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "162708cf-7043-42f6-87f2-35ecf37e7dc9"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS CloudFormation workshop - Mappings (uksb-1q9p31idr).",
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "Amazon EC2 Configuration"
+                    },
+                    "Parameters": [
+                        "AmiID"
+                    ]
+                }
+            ],
+            "ParameterLabels": {
+                "AmiID": {
+                    "default": "Amazon Machine Image ID"
+                }
+            }
+        }
+    },
+    "Parameters": {
+        "EnvironmentType": {
+            "Description": "Specify the Environment type of the stack.",
+            "Type": "String",
+            "Default": "Test",
+            "AllowedValues": [
+                "Test",
+                "Prod"
+            ],
+            "ConstraintDescription": "Specify either Test or Prod."
+        },
+        "AmiID": {
+            "Type": "AWS::EC2::Image::Id",
+            "Description": "The ID of the AMI."
+        }
+    },
+    "Mappings": {
+        "EnvironmentToInstanceType": {
+            "Test": {
+                "InstanceType": "t2.micro"
+            },
+            "Prod": {
+                "InstanceType": "t2.small"
+            }
+        }
+    },
+    "Resources": {
+        "WebServerInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Ref": "AmiID"
+                },
+                "InstanceType": {
+                    "Fn::FindInMap": [
+                        "EnvironmentToInstanceType",
+                        {
+                            "Ref": "EnvironmentType"
+                        },
+                        "InstanceType"
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    {
+                                        "Ref": "EnvironmentType"
+                                    },
+                                    "webserver"
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

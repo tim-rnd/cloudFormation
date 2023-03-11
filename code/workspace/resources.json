@@ -1,0 +1,64 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS CloudFormation workshop - Resources (uksb-1q9p31idr).",
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "Amazon EC2 Configuration"
+                    },
+                    "Parameters": [
+                        "InstanceType"
+                    ]
+                }
+            ],
+            "ParameterLabels": {
+                "InstanceType": {
+                    "default": "Type of EC2 Instance"
+                }
+            }
+        },
+        "AWS::CloudFormation::Designer": {
+            "fc9dde5e-481e-464f-8e12-a4e8e72653df": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            }
+        }
+    },
+    "Parameters": {
+        "InstanceType": {
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small"
+            ],
+            "Description": "Enter t2.micro or t2.small. Default is t2.micro."
+        }
+    },
+    "Resources": {
+        "WebServerInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "ImageId": "ami-0f3b366cff2e46862"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "fc9dde5e-481e-464f-8e12-a4e8e72653df"
+                }
+            }
+        }
+    }
+}
